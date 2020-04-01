@@ -51,4 +51,31 @@ class BenchmarkTest extends TestCase
 
         $this->assertSame(2, $GLOBALS['intTestVariable']);
     }
+
+    /**
+     * @test
+     */
+    public function it_executes_function_by_set_iterations(){
+        $bm = new Benchmark();
+
+        $bm->add('test_add1ToIntTestVariable');
+
+        $bm->setIterations(5)->run();
+
+        $this->assertSame(5, $GLOBALS['intTestVariable']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_executes_all_functions_by_set_iterations(){
+        $bm = new Benchmark();
+
+        $bm->add('test_add1ToIntTestVariable');
+        $bm->add('test_add2ToIntTestVariable');
+
+        $bm->setIterations(5)->run();
+
+        $this->assertSame(15, $GLOBALS['intTestVariable']);
+    }
 }
