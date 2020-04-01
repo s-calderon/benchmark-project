@@ -17,4 +17,13 @@ class ResultTest extends TestCase
 
         $this->assertGreaterThan(0, $result->getTotalTime());
     }
+
+    /**
+     * @test
+     */
+    public function it_stores_function_name(){
+        $result = new Result('test_add1ToIntTestVariable', 1);
+
+        $this->assertEquals('test_add1ToIntTestVariable', $result->getName());
+    }
 }
