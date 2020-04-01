@@ -38,4 +38,17 @@ class BenchmarkTest extends TestCase
         
         $this->assertCount(1, $bm->getFunctions());
     }
+
+    /**
+     * @test
+     */
+    public function it_executes_function_on_run(){
+        $bm = new Benchmark();
+
+        $bm->add('test_add2ToIntTestVariable');
+
+        $bm->run();
+
+        $this->assertSame(2, $GLOBALS['intTestVariable']);
+    }
 }

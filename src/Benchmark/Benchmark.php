@@ -31,4 +31,15 @@ class Benchmark
     {
         return $this->functions;
     }
+
+    /**
+     * Executes functions in set.
+     * 
+     * @return void 
+     */
+    public function run(){
+        foreach($this->functions as $function){
+            $function();
+        }
+    }
 }
