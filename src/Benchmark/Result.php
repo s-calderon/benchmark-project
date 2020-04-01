@@ -45,6 +45,11 @@ class Result
         return $this->totalTime;
     }
 
+    /**
+     * Gets funtion name of results.
+     * 
+     * @return string 
+     */
     public function getName(){
         return $this->name;
     }
