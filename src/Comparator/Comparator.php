@@ -30,6 +30,8 @@ class Comparator
      */
     private function setStrategy(string $strategy){
         switch ($strategy) {
+            case 'min':
+                $this->compareStrategy = new CompareMin();
             case 'total':
                 $this->compareStrategy = new CompareTotal();
                 break;

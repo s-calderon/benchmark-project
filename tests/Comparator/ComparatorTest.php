@@ -11,9 +11,9 @@ class ComparatorTest extends TestCase
      * @test
      * @dataProvider argumentProvider
      */
-    public function it_outputs_correct_values_on_compare($a, $b, $expected)
+    public function it_outputs_correct_values_on_compare($strategy, $a, $b, $expected)
     {
-        $comparator = new Comparator();
+        $comparator = new Comparator($strategy);
 
         $this->assertSame($expected, $comparator->compare($a, $b));
     }
@@ -22,9 +22,9 @@ class ComparatorTest extends TestCase
      * @test
      * @dataProvider argumentProvider
      */
-    public function it_outputs_correct_values_on_compare_when_reversed($a, $b, $expected)
+    public function it_outputs_correct_values_on_compare_when_reversed($strategy, $a, $b, $expected)
     {
-        $comparator = new Comparator();
+        $comparator = new Comparator($strategy);
 
         $comparator->reverse();
 
@@ -35,16 +35,19 @@ class ComparatorTest extends TestCase
     {
         $a = $this->createStub(\Benchmarker\Benchmark\Result::class);
         $a->method('getTotalTime')->willReturn(1);
-        $this->resultA = $a;
+        $a->method('getMin')->willReturn(.125);
 
         $b = $this->createStub(\Benchmarker\Benchmark\Result::class);
         $b->method('getTotalTime')->willReturn(2);
-        $this->resultB = $b;
+        $b->method('getMin')->willReturn(.25);
 
         return[
-            [$a, $b, -1],
-            [$b, $a, 1],
-            [$a, $a, 0]
+            ['total', $a, $b, -1],
+            ['total', $b, $a, 1],
+            ['total', $a, $a, 0],
+            ['min', $a, $b, -1],
+            ['min', $b, $a, 1],
+            ['min', $a, $a, 0]
         ];
     }
 }
