@@ -7,6 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class BenchmarkTest extends TestCase
 {
+    public function setUp() : void
+    {
+        testVariableReset();
+    }
+
     /**
      * @test
      */
@@ -16,6 +21,21 @@ class BenchmarkTest extends TestCase
         
         $bm->add('test_add1ToIntTestVariable');
 
+        $this->assertCount(1, $bm->getFunctions());
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_add_the_same_function_more_than_once_to_set(){
+        $bm = new Benchmark();
+
+        $bm->add('test_add1ToIntTestVariable');
+        
+        $this->assertCount(1, $bm->getFunctions());
+
+        $bm->add('test_add1ToIntTestVariable');
+        
         $this->assertCount(1, $bm->getFunctions());
     }
 }

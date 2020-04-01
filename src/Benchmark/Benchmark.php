@@ -17,13 +17,15 @@ class Benchmark
      */
     public function add(callable $function)
     {
-        $this->functions[] = $function;
+        if (!in_array($function, $this->functions)) {
+            $this->functions[] = $function;
+        }
     }
 
     /**
      * Returns set of functions to be benchmarked.
-     * 
-     * @return callable[] 
+     *
+     * @return callable[]
      */
     public function getFunctions()
     {
