@@ -10,6 +10,33 @@ class Comparator
      * @var int
      */
     private $reverse = 1;
+    
+    /**
+     * 
+     * @var CompareResult
+     */
+    private $compareStrategy;
+
+    public function __construct(string $strategy = 'total')
+    {
+        $this->setStrategy($strategy);
+    }
+
+    /**
+     * Set comparing strategy for Comparator.
+     * 
+     * @param string $strategy 
+     * @return void 
+     */
+    private function setStrategy(string $strategy){
+        switch ($strategy) {
+            case 'total':
+                $this->compareStrategy = new CompareTotal();
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * Gets total execution time from Result to compare.
@@ -40,14 +67,9 @@ class Comparator
      */
     public function compare(Result $a, Result $b)
     {
+        return $this->reverse * $this->compareStrategy->compare($a, $b);
+
         $comparableA = $this->getComparable($a);
         $comparableB = $this->getComparable($b);
-
-        if ($comparableA == $comparableB) {
-            return 0;
-        }
-
-        $value = ($comparableA < $comparableB) ? -1 : 1;
-        return $this->reverse * $value;
     }
 }
