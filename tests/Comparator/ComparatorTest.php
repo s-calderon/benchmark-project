@@ -11,13 +11,28 @@ class ComparatorTest extends TestCase
      * @test
      * @dataProvider argumentProvider
      */
-    public function it_outputs_correct_values_on_compare($a, $b, $expected){
+    public function it_outputs_correct_values_on_compare($a, $b, $expected)
+    {
         $comparator = new Comparator();
 
         $this->assertSame($expected, $comparator->compare($a, $b));
     }
 
-    public function argumentProvider(){
+    /**
+     * @test
+     * @dataProvider argumentProvider
+     */
+    public function it_outputs_correct_values_on_compare_when_reversed($a, $b, $expected)
+    {
+        $comparator = new Comparator();
+
+        $comparator->reverse();
+
+        $this->assertSame(-$expected, $comparator->compare($a, $b));
+    }
+
+    public function argumentProvider()
+    {
         $a = $this->createStub(\Benchmarker\Benchmark\Result::class);
         $a->method('getTotalTime')->willReturn(1);
         $this->resultA = $a;
