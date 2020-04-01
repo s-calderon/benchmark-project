@@ -15,6 +15,11 @@ class Benchmark
     private $iterations = 1;
 
     /**
+     * @var \Benchmarker\Benchmark\Result[]
+     */
+    private $results = [];
+
+    /**
      * Adds callable function to set of functions to be benchmarked.
      *
      * @param callable $function
@@ -51,16 +56,23 @@ class Benchmark
     }
 
     /**
-     * Executes functions in set.
+     * Executes functions in set and collects result.
      *
      * @return void
      */
     public function run()
     {
         foreach ($this->functions as $function) {
-            for ($i=0; $i < $this->iterations; $i++) { 
-                $function();
-            }
+            $this->results[] = new Result($function, $this->iterations);
         }
+    }
+    
+    /**
+     * Get function execution results.
+     * 
+     * @return Result[] 
+     */
+    public function getResults(){
+        return $this->results;
     }
 }

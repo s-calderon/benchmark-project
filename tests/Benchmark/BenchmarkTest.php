@@ -4,6 +4,7 @@ namespace Tests\Benchmark;
 
 use Benchmarker\Benchmark\Benchmark;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\TextUI\ResultPrinter;
 
 class BenchmarkTest extends TestCase
 {
@@ -77,5 +78,20 @@ class BenchmarkTest extends TestCase
         $bm->setIterations(5)->run();
 
         $this->assertSame(15, $GLOBALS['intTestVariable']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_array_of_Result_objects_after_run()
+    {
+        $bm = new Benchmark();
+
+        $bm->add('test_add1ToIntTestVariable');
+
+        $bm->run();
+
+        $this->assertCount(1, $bm->getResults());
+        $this->assertContainsOnlyInstancesOf('\Benchmarker\Benchmark\Result', $bm->getResults());
     }
 }
