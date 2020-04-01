@@ -5,6 +5,11 @@ namespace Benchmarker\Benchmark;
 class Result
 {
     /**
+     * @var float[]
+     */
+    private $times = [];
+
+    /**
      * @var int
      */
     private $totalTime = 0;
@@ -13,6 +18,8 @@ class Result
      * @var string
      */
     private $name = "";
+
+    private $min = 50.0;
 
     /**
      * Record function name and result of running function by specified iterations.
@@ -28,11 +35,21 @@ class Result
         for ($i=0; $i < $iterations; $i++) { 
             $start = microtime(true);
             $function();
-            $end = microtime(true);
+    
+            $time = microtime(true) - $start;
 
-            $this->totalTime += $end - $start;
+            $this->times[] = $time;
+
+            if ($time < $this->min) {
+                $this->min = $time;
+            }
+
+            $this->totalTime += $time;
         }
-        
+    }
+    
+    public function getTimes(){
+        return $this->times;
     }
 
     /**
@@ -52,5 +69,9 @@ class Result
      */
     public function getName(){
         return $this->name;
+    }
+
+    public function getMin(){
+        return $this->min;
     }
 }
