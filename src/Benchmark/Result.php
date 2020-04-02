@@ -20,6 +20,11 @@ class Result
     private $name = "";
 
     /**
+     * @var int
+     */
+    private $iterations = 1;
+
+    /**
      * @var float
      */
     private $min = 5000.0;
@@ -30,7 +35,7 @@ class Result
     private $max = -1.0;
 
     /**
-     * Record function name and result of running function by specified iterations.
+     * Records function name, iterations and results of running function by specified iterations.
      * 
      * @param callable $function 
      * @param int $iterations 
@@ -40,24 +45,36 @@ class Result
     {
         $this->name = $function;
 
+        $this->iterations = $iterations;
+
         for ($i=0; $i < $iterations; $i++) { 
             $start = microtime(true);
             $function();
     
             $time = microtime(true) - $start;
 
-            $this->times[] = $time;
-
-            if ($time < $this->min) {
-                $this->min = $time;
-            }
-
-            if ($time > $this->max) {
-                $this->max = $time;
-            }
-
-            $this->totalTime += $time;
+            $this->processTime($time);
         }
+    }
+
+    /**
+     * Process new time.
+     * 
+     * @param float $time 
+     * @return void 
+     */
+    private function processTime(float $time){
+        $this->times[] = $time;
+
+        if ($time < $this->min) {
+            $this->min = $time;
+        }
+
+        if ($time > $this->max) {
+            $this->max = $time;
+        }
+
+        $this->totalTime += $time;
     }
     
     /**
@@ -104,5 +121,14 @@ class Result
      */
     public function getMax(){
         return $this->max;
+    }
+
+    /**
+     * Returns average execution time, total/iterations. 
+     * 
+     * @return float 
+     */
+    public function getAverage(){
+        return $this->totalTime/$this->iterations;
     }
 }

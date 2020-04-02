@@ -44,4 +44,13 @@ class ResultTest extends TestCase
 
         $this->assertSame(max($result->getTimes()), $result->getMax());
     }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_average_execution_time_of_running_function_by_specified_iterations(){
+        $result = new Result('test_add1ToIntTestVariable', 2);
+
+        $this->assertSame(array_sum($result->getTimes())/2, $result->getAverage());
+    }
 }
