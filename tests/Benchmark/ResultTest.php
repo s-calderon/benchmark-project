@@ -53,4 +53,13 @@ class ResultTest extends TestCase
 
         $this->assertSame(array_sum($result->getTimes())/2, $result->getAverage());
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_total_iterations_run(){
+        $result = new Result('test_add1ToIntTestVariable', 2);
+
+        $this->assertSame(count($result->getTimes()), $result->getIterations());
+    }
 }

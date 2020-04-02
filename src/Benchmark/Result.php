@@ -131,4 +131,13 @@ class Result
     public function getAverage(){
         return $this->totalTime/$this->iterations;
     }
+
+    /**
+     * Get total iterations run. 
+     * 
+     * @return int 
+     */
+    public function getIterations(){
+        return $this->iterations;
+    }
 }
