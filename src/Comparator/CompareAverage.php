@@ -8,7 +8,7 @@ class CompareAverage implements CompareResult
 {
     public function compare(Result $a, Result $b)
     {
-        if ($a-getAverage() == $b->getAverage()) {
+        if ($a->getAverage() == $b->getAverage()) {
             return 0;
         }
 

@@ -12,34 +12,32 @@ class Comparator
     private $reverse = 1;
     
     /**
-     * 
-     * @var CompareResult
+     * @var string
      */
-    private $compareStrategy;
+    private $comparatorStrategy;
 
     public function __construct(string $strategy = 'total')
     {
-        $this->setStrategy($strategy);
+        $this->comparatorStrategy = $strategy;
     }
 
     /**
      * Set comparing strategy for Comparator.
      * 
      * @param string $strategy 
-     * @return void 
+     * @return CompareResult 
      */
-    private function setStrategy(string $strategy){
-        switch ($strategy) {
+    private function getStrategy(){
+        switch ($this->comparatorStrategy) {
             case 'min':
-                $this->compareStrategy = new CompareMin();
+                return new CompareMin();
             case 'max':
-                $this->compareStrategy = new CompareMax();
+                return new CompareMax();
             case 'avg':
-                $this->compareStrategy = new CompareAverage();
+                return new CompareAverage();
             case 'total':
-                $this->compareStrategy = new CompareTotal();
-                break;
             default:
+                return new CompareTotal();
                 break;
         }
     }
@@ -73,9 +71,6 @@ class Comparator
      */
     public function compare(Result $a, Result $b)
     {
-        return $this->reverse * $this->compareStrategy->compare($a, $b);
-
-        $comparableA = $this->getComparable($a);
-        $comparableB = $this->getComparable($b);
+        return $this->reverse * $this->getStrategy()->compare($a, $b);
     }
 }

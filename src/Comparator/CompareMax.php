@@ -8,7 +8,7 @@ class CompareMax implements CompareResult
 {
     public function compare(Result $a, Result $b)
     {
-        if ($a-getMax() == $b->getMax()) {
+        if ($a->getMax() == $b->getMax()) {
             return 0;
         }
 

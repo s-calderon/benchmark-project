@@ -46,18 +46,18 @@ class ComparatorTest extends TestCase
         $b->method('getAverage')->willReturn(.25);
 
         return[
-            "first total < second total" => ['total', $a, $b, -1],
-            "first total > second total" => ['total', $b, $a, 1],
-            "first total = second total" => ['total', $a, $a, 0],
-            "first min < second min" => ['min', $a, $b, -1],
-            "first min > second min" => ['min', $b, $a, 1],
-            "first min = second min" => ['min', $a, $a, 0],
-            "first max > second max" => ['max', $a, $b, -1],
-            "first max < second max" => ['max', $b, $a, 1],
-            "first max = second max" => ['max', $a, $a, 0],
-            "first avg < second avg" => ['avg', $a, $b, -1],
-            "first avg > second avg" => ['avg', $b, $a, 1],
-            "first avg = second avg" => ['avg', $a, $a, 0]
+            'first total < second total' => ['total', $a, $b, -1],
+            'first total > second total' => ['total', $b, $a, 1],
+            'first total = second total' => ['total', $a, $a, 0],
+            'first min < second min' => ['min', $a, $b, -1],
+            'first min > second min' => ['min', $b, $a, 1],
+            'first min = second min' => ['min', $a, $a, 0],
+            'first max > second max' => ['max', $a, $b, -1],
+            'first max < second max' => ['max', $b, $a, 1],
+            'first max = second max' => ['max', $a, $a, 0],
+            'first avg < second avg' => ['avg', $a, $b, -1],
+            'first avg > second avg' => ['avg', $b, $a, 1],
+            'first avg = second avg' => ['avg', $a, $a, 0]
         ];
     }
 }
