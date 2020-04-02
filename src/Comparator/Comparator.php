@@ -32,6 +32,8 @@ class Comparator
         switch ($strategy) {
             case 'min':
                 $this->compareStrategy = new CompareMin();
+            case 'max':
+                $this->compareStrategy = new CompareMax();
             case 'total':
                 $this->compareStrategy = new CompareTotal();
                 break;
