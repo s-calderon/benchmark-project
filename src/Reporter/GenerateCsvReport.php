@@ -6,26 +6,27 @@ class GenerateCsvReport implements GenerateReport
 {
     public function generate(array $results)
     {
+        $output = '';
         // print header
         foreach ($results[0]->asArray() as $key => $value) {
-            if ($key !== "Name") {
-                $data .= ",";
+            if ($key !== 'Name') {
+                $output .= ',';
             }
-            $data .= "$value";
+            $output .= "$key";
         }
-        echo "\n";
+        $output .= "\n";
 
         // print results
         foreach ($results as $result) {
             foreach ($result->asArray() as $key => $value) {
-                if ($key !== "Name") {
-                    $data .= ",";
+                if ($key !== 'Name') {
+                    $output .= ',';
                 }
-                $data .= "$value";
+                $output .= "$value";
             }
-            echo "\n";
+            $output .= "\n";
         }
 
-        file_put_contents('results.csv', data);
+        file_put_contents('results.csv', $output);
     }
 }
