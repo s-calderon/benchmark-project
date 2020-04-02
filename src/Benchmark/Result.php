@@ -49,9 +49,9 @@ class Result
         
         for ($i=0; $i < $iterations; $i++) { 
             ob_start();
-            $start = microtime(true);
+            $start = hrtime(true);
             $function();
-            $time = microtime(true) - $start;
+            $time = hrtime(true) - $start;
             ob_end_clean();
 
             $this->processTime($time);

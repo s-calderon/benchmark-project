@@ -26,7 +26,7 @@ class GenerateScreenReport implements GenerateReport
                 } elseif ($key == 'Iterations') {
                     echo sprintf(' %-12d', $value);
                 } else {
-                    echo sprintf(' %-12f', $value);
+                    echo sprintf(' %-12u', $value);
                 }
             }
             echo "\n";
