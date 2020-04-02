@@ -19,7 +19,15 @@ class Result
      */
     private $name = "";
 
-    private $min = 50.0;
+    /**
+     * @var float
+     */
+    private $min = 5000.0;
+
+    /**
+     * @var float
+     */
+    private $max = -1.0;
 
     /**
      * Record function name and result of running function by specified iterations.
@@ -44,10 +52,19 @@ class Result
                 $this->min = $time;
             }
 
+            if ($time > $this->max) {
+                $this->max = $time;
+            }
+
             $this->totalTime += $time;
         }
     }
     
+    /**
+     * Returns an array of all the execution times.
+     * 
+     * @return float[] 
+     */
     public function getTimes(){
         return $this->times;
     }
@@ -71,7 +88,21 @@ class Result
         return $this->name;
     }
 
+    /**
+     * Gets smallest execution time.
+     * 
+     * @return float 
+     */
     public function getMin(){
         return $this->min;
+    }
+
+    /**
+     * Gets largest execution time.
+     * 
+     * @return float 
+     */
+    public function getMax(){
+        return $this->max;
     }
 }

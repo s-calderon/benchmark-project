@@ -35,4 +35,13 @@ class ResultTest extends TestCase
 
         $this->assertSame(min($result->getTimes()), $result->getMin());
     }
+
+    /**
+     * @test
+     */
+    public function it_stores_max_execution_time_of_running_function_by_specified_iterations(){
+        $result = new Result('test_add1ToIntTestVariable', 2);
+
+        $this->assertSame(max($result->getTimes()), $result->getMax());
+    }
 }
