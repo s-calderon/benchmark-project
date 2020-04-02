@@ -46,15 +46,17 @@ class Result
         $this->name = $function;
 
         $this->iterations = $iterations;
-
+        
         for ($i=0; $i < $iterations; $i++) { 
+            ob_start();
             $start = microtime(true);
             $function();
-    
             $time = microtime(true) - $start;
+            ob_end_clean();
 
             $this->processTime($time);
         }
+
     }
 
     /**
