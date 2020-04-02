@@ -33,7 +33,18 @@ class ReporterTest extends TestCase
             'Iterations' => 1000
         ]);
 
-        $this->results = [$a, $b];
+        $c = $this->createStub(\Benchmarker\Benchmark\Result::class);
+        $c->method('getTotalTime')->willReturn(3);
+        $c->method('getMin')->willReturn(.124);
+        $c->method('getMax')->willReturn(.5);
+        $c->method('getAverage')->willReturn(.125);
+        $c->method('asArray')->willReturn([
+            'Name' => 'stubC',
+            'Time' => 3,
+            'Iterations' => 1000
+        ]);
+
+        $this->results = [$a, $b, $c];
     }
 
     /**
@@ -57,12 +68,32 @@ class ReporterTest extends TestCase
      */
     public function it_takes_comparator_to_order_results()
     {
-        $comparator = new \Benchmarker\Comparator\Comparator('total');
+        $comparators[] = new \Benchmarker\Comparator\Comparator('total');
 
-        $reporter = new Reporter($this->results, $comparator);
+        $reporter = new Reporter($this->results, $comparators);
 
         $regex = '/(Name)(.+)(Time)(.+)(Iterations)(.+)\n';
         $regex .= '(stubB)(.+)';
+        $regex .= '(stubA)(.+)';
+        $regex .= '/s';
+
+        $this->expectOutputRegex($regex);
+        $reporter->generateReport();
+    }
+
+    /**
+     * @test
+     */
+    public function it_takes_multiple_comparators_to_order_results()
+    {
+        $comparators[] = new \Benchmarker\Comparator\Comparator('total');
+        $comparators[] = new \Benchmarker\Comparator\Comparator('min');
+
+        $reporter = new Reporter($this->results, $comparators);
+
+        $regex = '/(Name)(.+)(Time)(.+)(Iterations)(.+)\n';
+        $regex .= '(stubB)(.+)';
+        $regex .= '(stubC)(.+)';
         $regex .= '(stubA)(.+)';
         $regex .= '/s';
 

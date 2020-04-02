@@ -2,6 +2,7 @@
 
 namespace Benchmarker\Reporter;
 
+use Benchmarker\Benchmark\Result;
 use Benchmarker\Comparator\Comparator;
 
 class Reporter
@@ -12,29 +13,64 @@ class Reporter
     private $results = [];
 
     /**
+     * @var \Benchmarker\Comparator\Comparator[]
+     */
+    private $comparators = [];
+
+    /**
      * @var string
      */
     private $format = 'screen';
 
-    public function __construct(array $results, Comparator $comparator = null)
+    /**
+     * 
+     * @param array $results 
+     * @param Benchmarker/Comparator/Comparator[] $comparators 
+     * @return void 
+     */
+    public function __construct(array $results, array $comparators = [])
     {
         $this->results = $results;
 
-        if (!is_null($comparator)) {
-            $this->applyComparator($comparator);
+        if (count($comparators) > 0) {
+            $this->applyComparators($comparators);
         }
     }
 
     /**
-     * Sorts results by given Comparator
+     * Sorts results by given Comparators
      * 
-     * @param Comparator $comparator 
+     * @param Benchmarker/Comparator/Comparator[] $comparators
      * @return void 
      */
-    private function applyComparator(Comparator $comparator)
+    private function applyComparators(array $comparators)
     {
-        usort($this->results, [$comparator, 'compare']);
+        $this->comparators = $comparators;
+
+        usort($this->results, [$this, 'comparatorsOutput']);
     }
+
+    /**
+     * Outputs comparision of chained comporators.
+     * 
+     * @param \Benchmarker\Benchmark\Result $a 
+     * @param \Benchmarker\Benchmark\Result $b 
+     * @return int 
+     */
+    private function comparatorsOutput(Result $a,Result $b){
+        $comparison = 0;
+
+        foreach ($this->comparators as $comparator) {
+            $comparison = $comparator->compare($a, $b);
+            
+            if ($comparison !== 0) {
+                break;
+            }
+        }
+
+        return $comparison;
+    }
+
 
     /**
      * Get generate strategy for set format.
