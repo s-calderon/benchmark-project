@@ -11,5 +11,8 @@
 		"psr-4": {
 			"Tests\\": "tests"
 		}
-	}
+	},
+    "require": {
+        "vanilla/garden-cli": "^2.2"
+    }
 }
