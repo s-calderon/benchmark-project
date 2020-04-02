@@ -87,6 +87,15 @@ class Result
     }
 
     /**
+     * Gets funtion name of results.
+     * 
+     * @return string 
+     */
+    public function getName(){
+        return $this->name;
+    }
+
+    /**
      * Get total time it took for function to run by set iterations.
      * 
      * @return int 
@@ -97,12 +106,12 @@ class Result
     }
 
     /**
-     * Gets funtion name of results.
+     * Get total iterations run. 
      * 
-     * @return string 
+     * @return int 
      */
-    public function getName(){
-        return $this->name;
+    public function getIterations(){
+        return $this->iterations;
     }
 
     /**
@@ -133,11 +142,24 @@ class Result
     }
 
     /**
-     * Get total iterations run. 
+     * Returns Result as an associative array. 
      * 
-     * @return int 
+     * @return array 
      */
-    public function getIterations(){
-        return $this->iterations;
+    public function asArray(){
+        $publicMethods = (new \ReflectionClass('\Benchmarker\Benchmark\Result'))->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $getterMethods = [];
+        foreach ($publicMethods as $method) {
+            $name = $method->name;
+
+            if (strpos($name, 'get') === 0) {
+                if ($name !== 'getTimes') {
+                    $name = str_replace("Total", "", $name);
+                    $getterMethods[substr($name, 3)] = call_user_func(array($this, $method->name)); 
+                }
+            }
+        }
+
+        return $getterMethods;
     }
 }

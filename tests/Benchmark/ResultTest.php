@@ -10,7 +10,8 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_total_execution_time_of_running_function_by_specified_iterations(){
+    public function it_stores_total_execution_time_of_running_function_by_specified_iterations()
+    {
         $iterations = 3;
 
         $result = new Result('test_add1ToIntTestVariable', 3);
@@ -21,7 +22,8 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_function_name(){
+    public function it_stores_function_name()
+    {
         $result = new Result('test_add1ToIntTestVariable', 1);
 
         $this->assertEquals('test_add1ToIntTestVariable', $result->getName());
@@ -30,7 +32,8 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_min_execution_time_of_running_function_by_specified_iterations(){
+    public function it_stores_min_execution_time_of_running_function_by_specified_iterations()
+    {
         $result = new Result('test_add1ToIntTestVariable', 2);
 
         $this->assertSame(min($result->getTimes()), $result->getMin());
@@ -39,7 +42,8 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function it_stores_max_execution_time_of_running_function_by_specified_iterations(){
+    public function it_stores_max_execution_time_of_running_function_by_specified_iterations()
+    {
         $result = new Result('test_add1ToIntTestVariable', 2);
 
         $this->assertSame(max($result->getTimes()), $result->getMax());
@@ -48,18 +52,43 @@ class ResultTest extends TestCase
     /**
      * @test
      */
-    public function it_gets_the_average_execution_time_of_running_function_by_specified_iterations(){
+    public function it_gets_the_average_execution_time_of_running_function_by_specified_iterations()
+    {
         $result = new Result('test_add1ToIntTestVariable', 2);
 
-        $this->assertSame(array_sum($result->getTimes())/2, $result->getAverage());
+        $this->assertSame(array_sum($result->getTimes()) / 2, $result->getAverage());
     }
 
     /**
      * @test
      */
-    public function it_returns_total_iterations_run(){
+    public function it_returns_total_iterations_run()
+    {
         $result = new Result('test_add1ToIntTestVariable', 2);
 
         $this->assertSame(count($result->getTimes()), $result->getIterations());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_return_associative_array_of_all_public_getters()
+    {
+        $result = new Result('test_add1ToIntTestVariable', 1);
+
+        $publicMethods = (new \ReflectionClass('\Benchmarker\Benchmark\Result'))->getMethods(\ReflectionMethod::IS_PUBLIC);
+        $filteredMethods = [];
+        foreach ($publicMethods as $method) {
+            $name = $method->name;
+
+            if (strpos($name, 'get') === 0) {
+                if ($name !== 'getTimes') {
+                    $name = str_replace("Total", "", $name);
+                    $filteredMethods[] = substr($name, 3);
+                }
+            }
+        }
+
+        $this->assertSame($filteredMethods, array_keys($result->asArray()));
     }
 }
