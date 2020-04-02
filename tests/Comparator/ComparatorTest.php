@@ -37,11 +37,13 @@ class ComparatorTest extends TestCase
         $a->method('getTotalTime')->willReturn(1);
         $a->method('getMin')->willReturn(.125);
         $a->method('getMax')->willReturn(.5);
+        $a->method('getAverage')->willReturn(.125);
 
         $b = $this->createStub(\Benchmarker\Benchmark\Result::class);
         $b->method('getTotalTime')->willReturn(2);
         $b->method('getMin')->willReturn(.25);
         $b->method('getMax')->willReturn(.25);
+        $b->method('getAverage')->willReturn(.25);
 
         return[
             "first total < second total" => ['total', $a, $b, -1],
@@ -52,7 +54,10 @@ class ComparatorTest extends TestCase
             "first min = second min" => ['min', $a, $a, 0],
             "first max > second max" => ['max', $a, $b, -1],
             "first max < second max" => ['max', $b, $a, 1],
-            "first max = second max" => ['max', $a, $a, 0]
+            "first max = second max" => ['max', $a, $a, 0],
+            "first avg < second avg" => ['avg', $a, $b, -1],
+            "first avg > second avg" => ['avg', $b, $a, 1],
+            "first avg = second avg" => ['avg', $a, $a, 0]
         ];
     }
 }

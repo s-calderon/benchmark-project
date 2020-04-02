@@ -34,6 +34,8 @@ class Comparator
                 $this->compareStrategy = new CompareMin();
             case 'max':
                 $this->compareStrategy = new CompareMax();
+            case 'avg':
+                $this->compareStrategy = new CompareAverage();
             case 'total':
                 $this->compareStrategy = new CompareTotal();
                 break;
