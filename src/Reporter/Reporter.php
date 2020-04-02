@@ -23,10 +23,9 @@ class Reporter
     private $format = 'screen';
 
     /**
-     * 
-     * @param array $results 
-     * @param Benchmarker/Comparator/Comparator[] $comparators 
-     * @return void 
+     * @param array $results
+     * @param Benchmarker/Comparator/Comparator[] $comparators
+     * @return void
      */
     public function __construct(array $results, array $comparators = [])
     {
@@ -39,9 +38,9 @@ class Reporter
 
     /**
      * Sorts results by given Comparators
-     * 
+     *
      * @param Benchmarker/Comparator/Comparator[] $comparators
-     * @return void 
+     * @return void
      */
     private function applyComparators(array $comparators)
     {
@@ -52,17 +51,18 @@ class Reporter
 
     /**
      * Outputs comparision of chained comporators.
-     * 
-     * @param \Benchmarker\Benchmark\Result $a 
-     * @param \Benchmarker\Benchmark\Result $b 
-     * @return int 
+     *
+     * @param \Benchmarker\Benchmark\Result $a
+     * @param \Benchmarker\Benchmark\Result $b
+     * @return int
      */
-    private function comparatorsOutput(Result $a,Result $b){
+    private function comparatorsOutput(Result $a, Result $b)
+    {
         $comparison = 0;
 
         foreach ($this->comparators as $comparator) {
             $comparison = $comparator->compare($a, $b);
-            
+
             if ($comparison !== 0) {
                 break;
             }
@@ -71,6 +71,16 @@ class Reporter
         return $comparison;
     }
 
+    /**
+     * Sets format.
+     *
+     * @param string $format
+     * @return void
+     */
+    public function setFormat(string $format)
+    {
+        $this->format = $format;
+    }
 
     /**
      * Get generate strategy for set format.
@@ -80,6 +90,9 @@ class Reporter
     private function getGenerateStrategy()
     {
         switch ($this->format) {
+            case 'csv':
+                return new GenerateCsvReport();
+                break;
             case 'screen':
             default:
                 return new GenerateScreenReport();
