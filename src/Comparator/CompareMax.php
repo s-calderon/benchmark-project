@@ -12,6 +12,6 @@ class CompareMax implements CompareResult
             return 0;
         }
 
-        return ($a->getMax() > $b->getMax()) ? -1 : 1;
+        return ($a->getMax() < $b->getMax()) ? -1 : 1;
     }
 }
