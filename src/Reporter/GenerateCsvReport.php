@@ -27,6 +27,6 @@ class GenerateCsvReport implements GenerateReport
             $output .= "\n";
         }
 
-        file_put_contents('results.csv', $output);
+        echo $output;
     }
 }
