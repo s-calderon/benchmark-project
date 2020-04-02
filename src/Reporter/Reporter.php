@@ -10,7 +10,7 @@ class Reporter
     private $results = [];
 
     /**
-     * @var string 
+     * @var string
      */
     private $format = 'screen';
 
@@ -21,10 +21,11 @@ class Reporter
 
     /**
      * Get generate strategy for set format.
-     * 
+     *
      * @return GenerateReport
      */
-    private function getGenerateStrategy(){
+    private function getGenerateStrategy()
+    {
         switch ($this->format) {
             case 'screen':
             default:
@@ -35,8 +36,8 @@ class Reporter
 
     /**
      * Generates report using set format.
-     * 
-     * @return void 
+     *
+     * @return void
      */
     public function generateReport()
     {
