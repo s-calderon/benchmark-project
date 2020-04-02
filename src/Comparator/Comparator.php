@@ -10,7 +10,7 @@ class Comparator
      * @var int
      */
     private $reverse = 1;
-    
+
     /**
      * @var string
      */
@@ -23,11 +23,12 @@ class Comparator
 
     /**
      * Set comparing strategy for Comparator.
-     * 
-     * @param string $strategy 
-     * @return CompareResult 
+     *
+     * @param string $strategy
+     * @return CompareResult
      */
-    private function getStrategy(){
+    private function getStrategy()
+    {
         switch ($this->comparatorStrategy) {
             case 'min':
                 return new CompareMin();
@@ -43,22 +44,12 @@ class Comparator
     }
 
     /**
-     * Gets total execution time from Result to compare.
-     *
-     * @param Result $result
-     * @return int
-     */
-    private function getComparable(Result $result)
-    {
-        return $result->getTotalTime();
-    }
-
-    /**
      * Reverses reverse value.
-     * 
-     * @return void 
+     *
+     * @return void
      */
-    public function reverse(){
+    public function reverse()
+    {
         $this->reverse *= -1;
     }
 
