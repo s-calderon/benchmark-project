@@ -11,8 +11,27 @@ class ReporterTest extends TestCase
 
     public function setUp() : void
     {
-        $a = new \Benchmarker\Benchmark\Result('test_add1ToIntTestVariable', 1000);
-        $b = new \Benchmarker\Benchmark\Result('test_add2ToIntTestVariable', 1000);
+        $a = $this->createStub(\Benchmarker\Benchmark\Result::class);
+        $a->method('getTotalTime')->willReturn(3);
+        $a->method('getMin')->willReturn(.125);
+        $a->method('getMax')->willReturn(.5);
+        $a->method('getAverage')->willReturn(.125);
+        $a->method('asArray')->willReturn([
+            'Name' => 'stubA',
+            'Time' => 3,
+            'Iterations' => 1000
+        ]);
+
+        $b = $this->createStub(\Benchmarker\Benchmark\Result::class);
+        $b->method('getTotalTime')->willReturn(2);
+        $b->method('getMin')->willReturn(.25);
+        $b->method('getMax')->willReturn(.25);
+        $b->method('getAverage')->willReturn(.25);
+        $b->method('asArray')->willReturn([
+            'Name' => 'stubB',
+            'Time' => 2,
+            'Iterations' => 1000
+        ]);
 
         $this->results = [$a, $b];
     }
@@ -25,8 +44,27 @@ class ReporterTest extends TestCase
         $reporter = new Reporter($this->results);
 
         $regex = '/(Name)(.+)(Time)(.+)(Iterations)(.+)\n';
-        $regex .= '(test_add1ToIntTestVariable)(.+)\n';
-        $regex .= '(test_add2ToIntTestVariable)(.+)/s';
+        $regex .= '(stubA)(.+)';
+        $regex .= '(stubB)(.+)';
+        $regex .= '/s';
+
+        $this->expectOutputRegex($regex);
+        $reporter->generateReport();
+    }
+
+    /**
+     * @test
+     */
+    public function it_takes_comparator_to_order_results()
+    {
+        $comparator = new \Benchmarker\Comparator\Comparator('total');
+
+        $reporter = new Reporter($this->results, $comparator);
+
+        $regex = '/(Name)(.+)(Time)(.+)(Iterations)(.+)\n';
+        $regex .= '(stubB)(.+)';
+        $regex .= '(stubA)(.+)';
+        $regex .= '/s';
 
         $this->expectOutputRegex($regex);
         $reporter->generateReport();

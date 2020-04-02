@@ -2,6 +2,8 @@
 
 namespace Benchmarker\Reporter;
 
+use Benchmarker\Comparator\Comparator;
+
 class Reporter
 {
     /**
@@ -14,9 +16,24 @@ class Reporter
      */
     private $format = 'screen';
 
-    public function __construct(array $results)
+    public function __construct(array $results, Comparator $comparator = null)
     {
         $this->results = $results;
+
+        if (!is_null($comparator)) {
+            $this->applyComparator($comparator);
+        }
+    }
+
+    /**
+     * Sorts results by given Comparator
+     * 
+     * @param Comparator $comparator 
+     * @return void 
+     */
+    private function applyComparator(Comparator $comparator)
+    {
+        usort($this->results, [$comparator, 'compare']);
     }
 
     /**
