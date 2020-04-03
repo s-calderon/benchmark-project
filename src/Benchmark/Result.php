@@ -5,7 +5,7 @@ namespace Benchmarker\Benchmark;
 class Result
 {
     /**
-     * @var float[]
+     * @var int[]
      */
     private $times = [];
 
@@ -25,12 +25,12 @@ class Result
     private $iterations = 1;
 
     /**
-     * @var float
+     * @var int
      */
     private $min = 5000.0;
 
     /**
-     * @var float
+     * @var int
      */
     private $max = -1.0;
 
@@ -62,10 +62,10 @@ class Result
     /**
      * Process new time.
      * 
-     * @param float $time 
+     * @param int $time 
      * @return void 
      */
-    private function processTime(float $time){
+    private function processTime(int $time){
         $this->times[] = $time;
 
         if ($time < $this->min) {
@@ -82,7 +82,7 @@ class Result
     /**
      * Returns an array of all the execution times.
      * 
-     * @return float[] 
+     * @return int[] 
      */
     public function getTimes(){
         return $this->times;
@@ -119,7 +119,7 @@ class Result
     /**
      * Gets smallest execution time.
      * 
-     * @return float 
+     * @return int 
      */
     public function getMin(){
         return $this->min;
@@ -128,7 +128,7 @@ class Result
     /**
      * Gets largest execution time.
      * 
-     * @return float 
+     * @return int 
      */
     public function getMax(){
         return $this->max;
@@ -137,7 +137,7 @@ class Result
     /**
      * Returns average execution time, total/iterations. 
      * 
-     * @return float 
+     * @return int 
      */
     public function getAverage(){
         return $this->totalTime/$this->iterations;
