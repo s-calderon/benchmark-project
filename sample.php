@@ -4,33 +4,37 @@
  * Benchmarker will automatically collect these functions and add to benchmark.
  */
 
-function bm_echo3Tests()
+function bm_empty()
 {
-    echo 'TestTestTest';
 }
 
-
-$bm_array = [9, 8, 7, 6, 5, 4, 3, 2, 1];
-$bm_inorder_array = array_reverse($bm_array);
+function bm_declaring9ElementArray()
+{
+    $array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+}
 
 function bm_sortArray()
 {
-    sort($GLOBALS['bm_array']);
+    $array = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+    sort($array);
 }
 
 function bm_sortInOrderArray()
 {
-    sort($GLOBALS['bm_inorder_array']);
+    $array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    sort($array);
 }
 
 function bm_foreachLoop()
 {
-    foreach ($GLOBALS['bm_array'] as $element) {
+    $array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    foreach ($array as $element) {
     }
 }
 
 function bm_forLoop()
 {
-    for ($i = 0; $i < count($GLOBALS['bm_array']); $i++) {
+    $array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    for ($i = 0; $i < count($array); $i++) {
     }
 }
